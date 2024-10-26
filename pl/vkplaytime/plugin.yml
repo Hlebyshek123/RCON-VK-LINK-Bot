@@ -1,0 +1,13 @@
+name: vkplaytime
+main: vkplaytime\PT
+api: 3.0.0
+version: "1.0"
+
+commands:
+  ptime:
+    default: op
+    permission: cmd.ptime
+
+permissions:
+  cmd.ptime:
+   default: op

@@ -48,7 +48,13 @@ def main():
         conn.close()  # Закрываем соединение с базой данных
         return
 
-    nickname = input(":3 | Введите ваш никнейм: ")
+    # Проверяем, что введённый никнейм в нижнем регистре
+    while True:
+        nickname = input(":3 | Введите ваш никнейм (только в нижнем регистре): ")
+        if nickname.islower():
+            break
+        else:
+            print(":( | Ошибка: Никнейм должен содержать только символы в нижнем регистре.")
 
     # Добавляем пользователя как SuperAdmin
     add_superadmin(cursor, conn, vk_id, nickname)

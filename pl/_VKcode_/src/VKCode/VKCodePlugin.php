@@ -51,13 +51,13 @@ class VKCodePlugin extends PluginBase implements Listener {
         if ($row) {
             // Если код уже существует, выводим его повторно
             $existingCode = $row['vk_code'];
-            $player->sendMessage("§f§l> §l§bПривязка §l§f• §l§7Ваш §e§lкод §7§lпривязки §l§fВ§l§bK:§l§f " . $existingCode);
-            $player->sendMessage("§f§l> §l§bПривязка §f§l• §f§lИнструкция §7§l по привязке §l§eаккаунта §l§7к §l§fВ§l§bK §l§7боту! \n §l§f1. §l§7Найти в §l§fВ§l§bK §l§7бота §l§a@fallcraft_pe \n §f§l2. §l§7Написать боту §f§l/привязать [ник] [код] §l§7и всё ваш аккаунт будет привязан к §l§fВ§l§bК \n\n §8§l(§l§7P.S §l§fЕсли возникнут §l§cпроблемы §l§aВ§l§fК §l§f@fallcraft_pe §l§8)");
+            $player->sendMessage("§f§l> §l§6Привязка §l§f• §l§7Ваш §e§lкод §7§lпривязки §l§fВ§l§bK:§l§f " . $existingCode);
+            $player->sendMessage("§f§l> §l§6Привязка §f§l> §f§lИнструкция §7§l по привязке §l§aаккаунта §l§7к §l§fВ§l§bK §l§7сообществу! \n §l§f1. §l§7Найти в §l§fВ§l§bK §l§7сообщество §l§3@hleb_craft\n §f§l2. §l§7Написать боту §f§l/привязать [ник] [код] §l§7и всё ваш аккаунт будет привязан к §l§fВ§l§bК \n\n §8§l(§l§7P.S §l§fЕсли возникнут §l§cпроблемы §l§6В§l§fК §l§f@hleb_craft §l§8)");
         } else {
             // Если кода нет, создаем новый и сохраняем его
             $code = $this->generateCode();
-            $player->sendMessage("§f§l> §l§bПривязка §f§l• §7§lВаш §e§lкод §7§lпривязки §l§fВ§l§bK:§l§f " . $code);
-            $player->sendMessage("§f§l> §l§bПривязка §f§l• §f§lИнструкция §7§l по привязке §l§eаккаунта §l§7к §l§fВ§l§bK §l§7боту! \n §l§f1. §l§7Найти в §l§fВ§l§bK §l§7бота §l§a@fallcraft_pe \n §f§l2. §l§7Написать боту §f§l/привязать [ник] [код] §l§7и все ваш аккаунт будет привязан к §l§fВ§l§bК \n\n §8§l(§l§7P.S §l§fЕсли возникнут §l§cпроблемы §l§6В§l§fК §l§f@fallcraft_pe §l§8)");
+            $player->sendMessage("§f§l> §l§6Привязка §f§l> §7§lВаш §e§lкод §7§lпривязки §l§fВ§l§bK:§l§f " . $code);
+            $player->sendMessage("§f§l> §l§6Привязка §f§l> §f§lИнструкция §7§l по привязке §l§aаккаунта §l§7к §l§fВ§l§bK §l§7сообществу! \n §l§f1. §l§7Найти в §l§fВ§l§bK §l§7сообщество §l§3@hleb_craft \n §f§l2. §l§7Написать боту §f§l/привязать [ник] [код] §l§7и все ваш аккаунт будет привязан к §l§fВ§l§bК \n\n §8§l(§l§7P.S §l§fЕсли возникнут §l§cпроблемы §l§6В§l§fК §l§f@hleb_craft §l§8)");
 
             // Сохраняем код в базе данных
             $this->saveCode($playerName, $code);

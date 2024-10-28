@@ -15,7 +15,7 @@ class VKManagerMain extends PluginBase implements Listener {
 
     private $db;
     private $blacklistCommands = ["ban-list", "ban", "kick", "pardon", "mute", "unmute", "addmoney"]; // Массив запрещённых команд для забаненного донатера
-    private $allowedRanks = ["Console", "GlConsole", "Developer", "Administrator", "SeniorAdmin"]; // Разрешённые ранги
+    private $allowedRanks = ["Console", "GlConsole", "Developer", "Administrator", "SeniorAdmin"]; // Разрешённые ранги (эти ранги обязательно должны одинаковые везде вообще)
 
     public function onEnable(): void {
         $dbPath = '/root/vklink/vk_bot.db'; // Путь к базе данных
@@ -171,7 +171,7 @@ class VKManagerMain extends PluginBase implements Listener {
     }
 
     private function sendVkMessage($vk_id, $message) {
-        $accessToken = "vk1.a.8c2viGckjsuz_BB0lJdeF4JbADlL1vgoLz8wFZwQODw46GRBg1uw4B7HBhPxshcqS2zeazFgtXT3cc0bo7x2_kLQPHBeAj2lJZ0upAtcwvwj2j5dKvQjb_fTkiAh6huc5cVniIBoOeJUDBxV7vywwhPq9ckDjLKlpJySukGhPOIo916TPpMyaoQ"; // Укажите ваш токен доступа
+        $accessToken = "VK TOKEN"; // Укажите ваш токен доступа
         $randomId = rand(100000, 999999); // Генерация случайного числа для random_id
 
         $requestParams = [
@@ -204,8 +204,8 @@ class VKManagerMain extends PluginBase implements Listener {
     }
 
     private function sendVkGroupMessage($message) {
-        $accessToken = "vk1.a.8c2viGckjsuz_BB0lJdeF4JbADlL1vgoLz8wFZwQODw46GRBg1uw4B7HBhPxshcqS2zeazFgtXT3ccupAtcwvwj2jRo_FMDLHZ13O-P3BDqz_4SvwTMVJOhb5dKvQjb_fTkiAh6huc5cVniIBoOeJUDBxV7vywwhPq9ckDjLKlpJySukGhPOIo916TPpMyaoQ"; // Укажите ваш токен доступа
-        $ownerId = "5988027"; // Замените на фактический ID администратора или владельца сообщества
+        $accessToken = "VK TOKEN"; // Укажите ваш токен доступа
+        $ownerId = "OWNER_ID"; // Замените на фактический ID администратора или владельца сообщества
 
         $randomId = rand(100000, 999999); // Генерация случайного числа для random_id
 

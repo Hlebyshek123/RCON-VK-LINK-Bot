@@ -26,7 +26,7 @@ class twofa extends PluginBase implements Listener {
         $playerIp = $player->getAddress(); // Получаем текущий IP игрока
 
         // Проверяем, включен ли 2FA для игрока в таблице settings
-        $stmtSettings = $this->db->prepare("SELECT active_twofa FROM settings WHERE username = :username");
+        $stmtSettings = $this->db->prepare("SELECT twofa_active FROM settings WHERE nickname = :username");
         $stmtSettings->bindValue(':username', strtolower($playerName), SQLITE3_TEXT);
         $resultSettings = $stmtSettings->execute();
 
@@ -35,7 +35,7 @@ class twofa extends PluginBase implements Listener {
             $resultSettings->finalize(); // Закрываем результат запроса
             
             // Если active_twofa = 'NO', пропускаем проверки 2FA
-            if ($settingsData && $settingsData['active_twofa'] === 'NO') {
+            if ($settingsData && $settingsData['two_fa'] === 'NO') {
                 $this->getLogger()->info("2FA отключен для пользователя $playerName.");
                 return;
             }
@@ -116,7 +116,7 @@ class twofa extends PluginBase implements Listener {
             'user_id' => $vkId,
             'message' => $message,
             'random_id' => rand(100000, 999999),
-            'access_token' => 'vk1.a.8c2viGckjsuz_BB0lJdeF4JbADlL1vgoLz8wFZwQODw4qS2zeazFgtXT3cc0bo7x2_kLQPHBeAj2lJZ0upAtcwvwj2jRo_FMDLHZ13O-P3BDqz_4SvwTMVJOhb5dKvQjb_fTkiAh6huc5cVniIBoOeJUDBxV7vywwhPq9ckDjLKlpJySukGhPOIo916TPpMyaoQ',
+            'access_token' => 'VK TOKEN',
             'v' => '5.131'
         ]);
 

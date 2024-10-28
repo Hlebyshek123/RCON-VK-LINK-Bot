@@ -146,7 +146,7 @@ class VKAuth extends PluginBase implements Listener {
 
 			$this->setAuthStatus($p, "register"); $p->setImmobile();
 
-			$p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6FallCraft§e PE§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/fallcraft_pe\n§l§7┃ §r§eСайт авто-доната §8- §6shop.fallcraft.ru\n\n§7> §eПрочитать §aправила§e сервера можно командой§8: §6/rules\n§7> §eПрочитать §bинформацию§e про донат можно тут§8: §a/donate\n
+			$p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6Hleb§fCraft§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/hleb_craft\n§l§7┃ §r§eСайт авто-доната §8- §6shop.hlebcraft.ru\n
 §7> §l§aЗарегиструйся, §l§7введя любой §l§eпароль §l§7в §l§eчат§l§7! (p.s. его никто не увидит)");
 			
 
@@ -158,7 +158,7 @@ class VKAuth extends PluginBase implements Listener {
 
 				$this->setAuthStatus($p, "game"); $p->setImmobile(false);
 
-				$p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6FallCraft§e PE§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/fallcraft_pe\n§l§7┃ §r§eСайт авто-доната §8- §6shop.fallcraft.ru\n\n§7> §eПрочитать §aправила§e сервера можно командой§8: §6/rules\n§7> §eПрочитать §bинформацию§e про донат можно тут§8: §a/donate\n\n§f> §l§7Вы §l§aуспешно §l§7 вошли в свой §l§eаккаунт§l§7!\n§7> §l§7Привязка §l§eаккаунта к §l§fВ§l§bK §l§f/vkcode");
+				$p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6Hleb§fCraft§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/hleb_craft\n§l§7┃ §r§eСайт авто-доната §8- §6shop.hlebcraft.ru\n\n§7> §eПрочитать §aправила§e сервера можно командой§8: §6/rules\n§7> §eПрочитать §bинформацию§e про донат можно тут§8: §a/donate\n\n§f> §l§7Вы §l§aуспешно §l§7 вошли в свой §l§6аккаунт§l§7!\n§7> §l§6Привязка §l§fаккаунта к §l§fВ§l§bK §l§f/§fv§bk§fcode\n§7> §l§6Защита §l§fаккаунта §7§l- §l§f/§c2§ffa§r");
 
 				$this->addSound($p, 47);
 				$this->addGuardian($p);
@@ -169,7 +169,7 @@ class VKAuth extends PluginBase implements Listener {
 
 				$this->setAuthStatus($p, "auth"); $p->setImmobile();
 
-				$p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6FallCraft§e PE§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/fallcraft_pe\n§l§7┃ §r§eСайт авто-доната §8- §6ashop.fallcraft.ru\n\n§7> §eПрочитать §aправила§e сервера можно командой§8: §6/rules\n§7> §eПрочитать §bинформацию§e про донат можно тут§8: §a/donate\n\n§f> §l§7Чтобы §l§aавторизоваться §l§7введи свой §l§eпароль §l§7в чат! ");
+				$p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6Hleb§fCraft§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/hleb_craft\n§l§7┃ §r§eСайт авто-доната §8- §6ashop.hlebcraft.ru\n§f> §l§7Чтобы §l§aавторизоваться §l§7введи свой §l§eпароль §l§7в чат! ");
 				
 
 				
@@ -222,7 +222,7 @@ class VKAuth extends PluginBase implements Listener {
 
 				$this->setAuthStatus($p, "game"); $p->setImmobile(false); $this->setIp($p);
 
-				$p->sendMessage("§f> §l§7Вы §l§aуспешно §l§aзарегистрировались §l§7на сервере!\n §f> §l§7Ваш ник: §l§f{$p->getName()}\n §f> §l§7Ваш §l§7пароль: §l§f{$msg}§l§7! \n§l§7(P.S. §l§fзаскриньте§l§7, §l§fзапишите§l§7, §l§7или §l§fзапомните §l§7его, а самое главное §l§dникому §l§cне §l§7давайте!§l§f)");
+				$p->sendMessage("§f> §l§7Вы §l§aуспешно §l§aзарегистрировались §l§7на сервере!\n §f> §l§7Ваш ник: §l§f{$p->getName()}§l§7!\n §f> §l§7Ваш §l§7пароль: §l§f{$msg}§l§7! \n§l§7(P.S. §l§fзаскриньте§l§7, §l§fзапишите§l§7, §l§7или §l§fзапомните §l§7его, а самое главное §l§eникому §l§cне §l§7давайте!§l§f)");
 
 				$this->addGuardian($p);
 
@@ -245,13 +245,13 @@ class VKAuth extends PluginBase implements Listener {
 
 				    $this->setAuthStatus($p, "game"); $p->setImmobile(false); $this->setIp($p);
 
-				    $p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6FallCraft§e PE§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/fallcraft_pe\n§l§7┃ §r§eСайт авто-доната §8- §6fallcraft.ru\n\n§7> §eПрочитать §aправила§e сервера можно командой§8: §6/rules\n§7> §eПрочитать §bинформацию§e про донат можно тут§8: §a/donate\n\n§f> §l§7Вы §l§aуспешно §l§7 вошли в свой §l§eаккаунт §l§f{$p->getName()}§l§7!\n§7> §l§7Привязка §l§eаккаунта к §l§fB§l§bK §l§f/vkcode");
+				    $p->sendMessage("§l§7┃ §eДобро пожаловать на §l§6Hleb§fCraft§r\n§7┃ §r§bГруппа ВКонтакте §8- §cvk.com/hleb_craft\n§l§7┃ §r§eСайт авто-доната §8- §6shop.hlebcraft.ru\n\n§7> §eПрочитать §aправила§e сервера можно командой§8: §6/rules\n§7> §eПрочитать §bинформацию§e про донат можно тут§8: §a/donate\n\n§f> §l§7Вы §l§aуспешно §l§7 вошли в свой §l§eаккаунт §l§f{$p->getName()}§l§7!\n§7> §l§eПривязка §l§fаккаунта к §l§fB§l§bK §l§f/§fv§bk§fcode\n§7> §l§7> §l§eЗащита §fаккаунта §l§f/§c2§ffa");
 
 				    $this->addGuardian($p); $this->setItems($p);
 				
 			    } else {
 
-				    $p->sendMessage("§f> §l§7{$p->getName()}, §l§7вы ввели §l§cНЕВЕРНЫЙ §l§7пароль! §l§a:3\n§l§7(§l§7Если вы забыли пароль введите §l§f/аккаунт восстановить §l§7в вк§l§7)"); $this->addSound($p, 61);
+				    $p->sendMessage("§f> §l§7{$p->getName()}, §l§7вы ввели §l§cНЕВЕРНЫЙ §l§7пароль! §l§a:3\n§l§7(§l§7Если вы забыли пароль введите: §l§f/аккаунт восстановить §l§7в вк§l§7)"); $this->addSound($p, 61);
 			    }
 			}
 		}

@@ -31,7 +31,7 @@ class Main extends PluginBase implements Listener
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         
         $this->initDatabase();
-        $this->getLogger()->info("§e===================\n§6Hleb§fBans §aВключен\n§fБураа няяя\n§e===================");
+        $this->getLogger()->info("\n§e===================\n§6Hleb§fBans §aВключен\n§fБураа няяя\n§e===================");
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask(array(
             $this,
             "cronTask"
@@ -50,7 +50,7 @@ class Main extends PluginBase implements Listener
     }
 
     private function initDatabase(){
-        $dbPath = "/root/VDS/grif/sv/plugins/HlebBans_src/vk_id.db";
+        $dbPath = "/root/linux/plugins/HlebBans_src/vk_id.db";
         $this->db = new \SQLite3($dbPath);
         $this->db->exec("CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, vk_id TEXT)");
     }
@@ -103,10 +103,10 @@ class Main extends PluginBase implements Listener
 	}
     public function send_post(string $msg){
     $msg = urlencode($msg);
-    $topic_id = '525684'; // ID обсуждения
-    $group_id = '2278604'; // ID вашей группы, без минуса
+    $topic_id = 'TOPIC_ID'; // ID обсуждения
+    $group_id = 'GROUP_ID'; // ID вашей группы, без минуса
     $from_group = '1'; # от имени сообщества
-    $token = 'vk1.a.lI1K8C96MToghQMWRfCSGQLXHXpAPg1iniMLQ-nNeC0nNHs8TKUOag87f05eUwRdq1HNSbipEZdOFs5MBHhBJTvI1owWrFhDuVRDtlzDnjQjeYCFlY9gvfAV4SQlc_cUD9_zbr7ucye5XaiTPiex3SrK__CQ_wViyjtUTKaqTfnw_dxU5Q-W0csezaIRDQ';
+    $token = 'VK TOKEN';
     $response = $this->url("https://api.vk.com/method/board.createComment?group_id={$group_id}&topic_id={$topic_id}&message={$msg}&from_group={$from_group}&v=5.131&access_token={$token}");
     return "Ответ на запрос: ".$response;
 }
@@ -114,7 +114,7 @@ class Main extends PluginBase implements Listener
     public function onCommand(CommandSender $sender, Command $command, $label, array $args)
     {
         switch ($label) {
-            case 'ban':
+            case 'hban':
                 if ($sender->hasPermission("hleb.ban")) {
         if (count($args) > 1 && preg_match("/^[0-9]+$/", $args[1])) {
             $pl = $this->getServer()->getPlayer($args[0]);
@@ -202,7 +202,7 @@ class Main extends PluginBase implements Listener
             #case 'ban-ip':
                 ###
                 #break;
-            case 'pardon':
+            case 'hpardon':
                 if ($sender->hasPermission("hleb.pardon")) {
         if (count($args) == 1) {
             $args[0] = strtolower($args[0]);
@@ -254,7 +254,7 @@ class Main extends PluginBase implements Listener
     } else
                     $sender->sendMessage($this->prefix . " §fРазбан аккаунтов доступен от группы \"§eСоздатель§с\"!");
                 break;
-            case 'ban-list':
+            case 'hbanlist':
                 if ($sender->hasPermission("hleb.list")) {
                     $banned = $this->banned->getAll();
                     $sender->sendMessage($this->prefix . " §fСписок забаненых");
@@ -264,7 +264,7 @@ class Main extends PluginBase implements Listener
                 } else
                     $sender->sendMessage($this->prefix . " §fПросмотр забаненых игроков доступен от группы \"§eОператор§c\" и выше");
                 break;
-            case 'kick':
+            case 'hkick':
 			           $arg = $args;
 						array_shift($arg);
 						array_shift($arg);
@@ -321,7 +321,7 @@ class Main extends PluginBase implements Listener
 } else
                     $sender->sendMessage($this->prefix . " §fКикать игроков доступно от группы \"§eМодератор§c\" и выше");
                 break;
-            case 'mute':
+            case 'hmute':
                 if ($sender->hasPermission("hleb.mute")) {
     if (count($args) > 2 && preg_match("/^[0-9]+$/", $args[1])) {
         if (strtolower($sender->getName()) == strtolower($args[0])) {
@@ -460,7 +460,7 @@ class Main extends PluginBase implements Listener
 } else
                     $sender->sendMessage($this->prefix . " §fУ вас нет прав на использование этой комнды!");
                 break;
-            case 'freeze':
+            case 'hfreeze':
                 if ($sender Instanceof Player)
                     $by = $sender->getName();
                 else
@@ -506,7 +506,7 @@ class Main extends PluginBase implements Listener
                         $this->help($sender);
                 }
                 break;
-            case 'ban-help':
+            case 'hhelp':
                 $this->help($sender);
                 break;
         }
@@ -555,15 +555,15 @@ public function onMove(PlayerMoveEvent $ev)
 
     private function help($sender)
     {
-        $sender->sendMessage($this->prefix . "§l§fПомощь по §7(§cFall§fCraft §cBans§7)");
-        $sender->sendMessage($this->prefix . "§l§e/ban §8(§aНик§8) §8(§aВремя§8) §8(§aПричина§8) - §fЗабанить игрока (макс.525600)");
+        $sender->sendMessage($this->prefix . "§l§fПомощь по §7(§eHleb§fCraft §cBans§7)");
+        $sender->sendMessage($this->prefix . "§l§e/hban §8(§aНик§8) §8(§aВремя§8) §8(§aПричина§8) - §fЗабанить игрока (макс.525600)");
         #$sender->sendMessage($this->prefix . "§l§e/ban-ip §8(§aНик§8) §8(§aВремя§8) §8(§aПричина§8) - §fЗабанить игрока по IP (макс.525600) ");
-        $sender->sendMessage($this->prefix . "§l§e/pardon §8(§aНик§8) §e- §fРазбанить игрока");
-        $sender->sendMessage($this->prefix . "§l§e/ban-list §e- §fСписок забаненых");
-        $sender->sendMessage($this->prefix . "§l§e/kick §8(§aНик§8) §8(§aПричина§8) - §fКикнуть игрока");
-        $sender->sendMessage($this->prefix . "§l§e/mute §8(§aНик§8) §8(§aВремя§8) §8(§aПричина§8) - §fЗаткнуть игрока (макс.10080)");
+        $sender->sendMessage($this->prefix . "§l§e/hpardon §8(§aНик§8) §e- §fРазбанить игрока");
+        $sender->sendMessage($this->prefix . "§l§e/hbanlist §e- §fСписок забаненых");
+        $sender->sendMessage($this->prefix . "§l§e/hkick §8(§aНик§8) §8(§aПричина§8) - §fКикнуть игрока");
+        $sender->sendMessage($this->prefix . "§l§e/hmute §8(§aНик§8) §8(§aВремя§8) §8(§aПричина§8) - §fЗаткнуть игрока (макс.10080)");
         $sender->sendMessage($this->prefix . "§l§e/unmute §8(§aНик§8) - §fСнять мут игрока");
-        $sender->sendMessage($this->prefix . "§l§e/freeze §8(§aadd|del§8) §8(§a@a|Ник§8) - §fЗаморозка игроков");
+        $sender->sendMessage($this->prefix . "§l§e/hfreeze §8(§aadd|del§8) §8(§a@a|Ник§8) - §fЗаморозка игроков");
         $sender->sendMessage($this->prefix . "§l§fВремя бана и кика в минутах.");
     }
 

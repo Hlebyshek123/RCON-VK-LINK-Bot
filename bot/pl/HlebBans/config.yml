@@ -1,0 +1,7 @@
+---
+chat-prefix: '§7> '
+logs-prefix: 'logs'
+srv-shop: 'nyacraft.ru'
+maxban-time: 525600
+maxmute-time: 10080
+...

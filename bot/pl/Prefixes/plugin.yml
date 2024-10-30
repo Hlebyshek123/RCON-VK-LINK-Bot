@@ -1,0 +1,27 @@
+name: Prefixes
+main: ChangePrefix\PrefixManager
+version: 1.0.0
+api: [3.0.0, 3.0.1]
+author: Hlebyshk
+description: Плагин для изменения префиксов игроков с сохранением в файл
+
+commands:
+  prefixes:
+    description: Команда для установки префикса игрока
+    permission: hleb.setprefix
+  colornick:
+    description: команда цвета
+    permission: hleb.setcolornick
+  colorchat:
+    description: Команда для установки цвета чата игрока
+    permission: hleb.setcolorchat
+permissions:
+  hleb.setprefix:
+    description: Позволяет игроку устанавливать префиксы
+    default: op
+  hleb.setcolornick:
+    description: позволяет сменить цвет
+    default: op
+  hleb.setcolorchat:
+    description: позволяет сменить цвет
+    default: op

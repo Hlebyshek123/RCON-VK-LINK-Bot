@@ -1,0 +1,183 @@
+# Файл конфигурации бота
+
+#=====================================#
+#            ВК НАСТРОЙКИ             #
+#=====================================#
+
+# ID сообщества VK (минус уже стоит внутри) 
+group_id: GROUP_ID  # Замените на ID вашего сообщества
+
+# ID сообщества логов
+logs_group_id: LOGS_GROUP_ID
+
+# ID обсуждения в логах
+logs_topic_id: LOGS_TOPIC_ID
+from_group: 1 #если 0 отправка идет от админа если 1 то от сообщества)
+
+# Токен доступа ВК для бота
+access_token: "VK TOKEN"
+
+# Токен доступа сообщества Логов (нужен токен пользователя админа)
+logs_admin_token: "VK USER TOKEN"
+
+#=====================================#
+#          RCON Настройки             #
+#=====================================#
+
+# Параметры ркон серверов
+servers:
+  grief:
+    rcon_host: "149.144.69.76"
+    rcon_port: 19133
+    rcon_password: "DyZm8WXu"
+  linux:
+    rcon_host: "178.237.254.151"
+    rcon_port: 19132
+    rcon_password: "1X4tQcIRjT"
+# список разрешенных серверов для рангов сервера
+serv_perms:
+  Helper:
+    - "linux"
+  Moderator:
+    - "linux"
+    - "grief"
+  Support:
+    - "linux"
+    - "grief"
+  SuperAdmin:
+    - "grief"
+    - "linux"
+  Console:
+    - "linux"
+# Списки разрешённых команд для каждого ранга
+permissions:
+  Console:
+    - "help"
+  GlConsole:
+    - "help"
+    - "list"
+  Developer:
+    - "hban"
+    - "hmute"
+  Helper:
+    - "fmute"
+    - "fban"
+    - "say"
+    - "usrinfo"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "fpardon"
+    - "time"
+  Moderator:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "fpardon"
+    - "time"
+  Administrator:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "fpardon"
+    - "time"
+  SeniorAdmin:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "fpardon"
+    - "kill"
+    - "time"
+  Deputy:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "kill"
+    - "fpardon"
+    - "gamemode"
+    - "give"
+    - "time"
+  Support:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "kill"
+    - "fpardon"
+    - "gamemode"
+    - "give"
+    - "time"
+  Manager:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "kill"
+    - "fpardon"
+    - "gamemode"
+    - "give"
+    - "time"
+  Sponsor:
+    - "*"
+  SuperAdmin:
+    - "*"  # "*" Всё Команды
+#=====================================#
+#            ДРУГОЕ                   #
+#=====================================#
+ # Админы вк (доступ к командам "помощь админ" и до 5акков на один вк айди)
+admins:
+  - 000000000  # VK ID первого админа
+  - 000000000  # VK ID второго админа
+  - 000000000  # VK ID третьего админа
+  - 000000000  # и тд
+
+#=====================================#
+#             ЗАВИСИМОСТИ             #
+#=====================================#
+
+# HlebBans
+# vkProtection
+# vkplaytime
+# vkAuth
+# 2FA_VK
+# VKManager
+# VKCode

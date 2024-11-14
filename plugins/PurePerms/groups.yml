@@ -1,0 +1,62 @@
+---
+heiter:
+  isDefault: false
+  inheritance: []
+  permissions:
+  - -essentials.kit
+  - -essentials.kit.other
+  - -pocketmine.command.me
+  - pchat.colored.format
+  - pchat.colored.nametag
+  - pocketmine.command.list
+  - pperms.command.ppinfo
+  - prefixmanager.hide
+  worlds: []
+lubitel:
+  inheritance:
+  - Guest
+  permissions:
+  - essentials.gamemode
+  - pocketmine.broadcast
+  - pocketmine.command.gamemode
+  - pocketmine.command.give
+  - pocketmine.command.kick
+  - pocketmine.command.teleport
+  - pocketmine.command.time
+  worlds: []
+fanat:
+  inheritance:
+  - Guest
+  - Admin
+  permissions:
+  - essentials
+  - pocketmine.command
+  - pperms.command
+  worlds: []
+fanatik:
+  inheritance: []
+  permissions:
+  - '*'
+  worlds: []
+bratstvo:
+  inheritance: []
+  permissions:
+  - '*'
+  worlds: []
+namestnik:
+  inheritance: []
+  permissions:
+  - '*'
+  worlds: []
+bozestvo:
+  inheritance: []
+  permissions:
+  - '*'
+  worlds: []
+Playet:
+  isDefault: true
+  inheritance: []
+  permissions:
+  - prefixmanager.prefixes
+  worlds: []
+...

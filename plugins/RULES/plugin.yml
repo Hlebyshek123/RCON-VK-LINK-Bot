@@ -1,0 +1,9 @@
+name: rules
+main: rules\rules
+version: 1
+api: 3.0.0
+author: hleb
+
+commands:
+ rules:
+  description : "/rules"

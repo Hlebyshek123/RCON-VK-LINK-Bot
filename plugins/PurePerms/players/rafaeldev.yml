@@ -1,0 +1,9 @@
+---
+userName: RafaelDev
+group: Playet
+permissions:
+- prefixmanager.realnick
+- prefixmanager.*
+- '*'
+worlds: []
+...

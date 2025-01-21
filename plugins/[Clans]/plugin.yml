@@ -1,8 +1,0 @@
-name: Clans
-api: 3.0.0
-main: Listochek\Clans
-author: Saha/Nersisyan
-version: 1.0
-commands:
-  c:
-    description: Clans

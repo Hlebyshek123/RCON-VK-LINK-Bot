@@ -38,13 +38,14 @@ ubuntu 22.04 уже имеет пайтон 3.10
 ```
 
 # ⚙️ Плагиновые зависимости
+(LiteCore 1.1.x)
 Плагины:
 HlebBans
 vkplaytime
 vkcode
 vkProtection
 vkmanager
-2fa_vk
+vk_Notifications
 vkAuth
 PurePerms
 

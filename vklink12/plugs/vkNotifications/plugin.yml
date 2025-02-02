@@ -1,0 +1,6 @@
+name: vkNotifications
+version: 1.0.0
+api: [3.0.0, 3.0.1]
+author: Hlebyshek
+main: vkNotifications\vkNotification
+description: vk

@@ -1,0 +1,183 @@
+# Файл конфигурации бота
+
+#=====================================#
+#            ВК НАСТРОЙКИ             #
+#=====================================#
+
+# ID сообщества VK (минус уже стоит внутри) 
+group_id: 223507839
+
+# ID сообщества логов
+logs_group_id: 225643362
+
+# ID обсуждения в логах
+logs_topic_id: 53491272
+from_group: 1 #если 0 отправка идет от админа если 1 то от сообщества)
+
+# Токен доступа ВК для бота
+access_token: "vk1.a.2YB1fmxg_ZO4m1_NgtkNLU2Ofke-SPNnXDRewzfebn8ZKhtkR8Vh4Xq3z4TLCo4bs_843k2UTemoem3PKawGoDnVKIHlsle2S7KqI5y5nC6VUskeA_YwKBbUnFPUF8qi47_iOyHT0qMYdJHcj-xRHHFlbHCX7ahBN3qrqDswSHhEDdKwgVLhvG0vmxfJXulTzOHRRZGHV2iP_QF-_goNVQ"
+
+# Токен доступа сообщества Логов (нужен токен пользователя админа)
+logs_admin_token: "vk1.a.HPOF3I150kkWBZhfB063FVHMflZX7DXnGs9_H_pL377G7TOslGI4WRQLe7PaFuOCI868nUnoQ8pwwJGa9Wd1YG6ay2kWDMpx5TMYaGnZWMOHy2cGZQA8myArm06glNkxRdbLgxlLxnbxllwTHtBmP05l2RmSTgOCUq4hNzzhLCMPlGiv-SZQPDVDQs0hf4o708jnRy8yJ5uFYMAA76DnNQ"
+
+#=====================================#
+#          RCON Настройки             #
+#=====================================#
+
+# Параметры ркон серверов
+servers:
+  grief:
+    rcon_host: "149.144.69.76"
+    rcon_port: 19133
+    rcon_password: "DyZm8WXu"
+  linux:
+    rcon_host: "178.236.243.51"
+    rcon_port: 19132
+    rcon_password: "hk1FLVyLtk"
+# список разрешенных серверов для рангов сервера
+serv_perms:
+  Helper:
+    - "linux"
+  Moderator:
+    - "linux"
+    - "grief"
+  Support:
+    - "linux"
+    - "grief"
+  SuperAdmin:
+    - "grief"
+    - "linux"
+  Console:
+    - "linux"
+# Списки разрешённых команд для каждого ранга
+permissions:
+  Console:
+    - "help"
+  GlConsole:
+    - "help"
+    - "list"
+  Developer:
+    - "hban"
+    - "hmute"
+  Helper:
+    - "fmute"
+    - "fban"
+    - "say"
+    - "usrinfo"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "fpardon"
+    - "time"
+  Moderator:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "fpardon"
+    - "time"
+  Administrator:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "fpardon"
+    - "time"
+  SeniorAdmin:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "fpardon"
+    - "kill"
+    - "time"
+  Deputy:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "kill"
+    - "fpardon"
+    - "gamemode"
+    - "give"
+    - "time"
+  Support:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "kill"
+    - "fpardon"
+    - "gamemode"
+    - "give"
+    - "time"
+  Manager:
+    - "fmute"
+    - "fban"
+    - "usrinfo"
+    - "say"
+    - "fkick"
+    - "msg"
+    - "list"
+    - "tp"
+    - "givemoney"
+    - "groups"
+    - "kill"
+    - "fpardon"
+    - "gamemode"
+    - "give"
+    - "time"
+  Sponsor:
+    - "*"
+  SuperAdmin:
+    - "*"  # "*" Всё Команды
+#=====================================#
+#            ДРУГОЕ                   #
+#=====================================#
+ # Админы вк (доступ к командам "помощь админ" и до 5акков на один вк айди)
+admins:
+  - 000000000  # VK ID первого админа
+  - 000000000  # VK ID второго админа
+  - 789886979  # VK ID третьего админа
+  - 662898360  # и тд
+
+#=====================================#
+#             ЗАВИСИМОСТИ             #
+#=====================================#
+
+# HlebBans
+# vkProtection
+# vkplaytime
+# vkAuth
+# vkNotifications
+# VKManager
+# VKCode

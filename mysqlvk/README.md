@@ -28,6 +28,10 @@ pip3 install pyyaml
 ```
 sudo apt install mysql-connector-python
 ```
+*SQLite3*
+```
+sudo pip3 install sqlite3
+```
 *Requests*
 ```
 pip3 install requests

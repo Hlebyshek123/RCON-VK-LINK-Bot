@@ -1,0 +1,16 @@
+name: VKManager
+main: VKManager\VKManagerMain
+version: 1.0.0
+api: [3.0.0]
+commands:
+  givevk:
+    description: "Выдать ВК игроку ранг"
+    usage: "/givevk [ник_игрока]"
+    permission: "vkmanager.givevk"
+  vkcode:
+    description: "Получить уникальный код привязки к ВК"
+    usage: "/vkcode"
+permissions:
+  vkmanager.givevk:
+    description: "Разрешение на использование команды /givevk"
+    default: op

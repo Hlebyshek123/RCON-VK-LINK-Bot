@@ -38,7 +38,7 @@ class auth extends PluginBase implements Listener
         $this->mysqlConnect();
         $this->checkDatabase();
 
-        $folder = "/root/linux/plugins/Auth";
+        $folder = "/root/linux/plugins/Auth/";
         if (!is_dir($folder)) @mkdir($folder);
         $this->players = new Config($folder . "players.json", Config::JSON);
 
@@ -62,9 +62,9 @@ class auth extends PluginBase implements Listener
     {
         $config = [
         'host' => "sql7.freesqldatabase.com",
-        'user' => "sql7759759",
-        'pass' => "8S8UBcTY92",
-        'db'   => "sql7759759"
+        'user' => "sql7762171",
+        'pass' => "pBezl7BsfF",
+        'db'   => "sql7762171"
     ];
     
         $this->data = new \mysqli(
@@ -251,7 +251,7 @@ class auth extends PluginBase implements Listener
             $this->getServer()->getScheduler()->cancelTask($this->auth_timeout[$target->getName()]);
             unset($this->auth_timeout[$target->getName()]);
         }
-        $target->addTitle("§c§lEpic§fMine", "§l§aАвторизован" . $this->getServer()->getPort(), 10, 60, 10);
+        $target->addTitle("§c§lEpic§fMine", "§l§a" . $this->getServer()->getPort(), 10, 60, 10);
     }
 
     public function onChat(PlayerChatEvent $e)

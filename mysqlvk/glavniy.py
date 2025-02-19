@@ -11,6 +11,7 @@ import mysql.connector
 import yaml
 import os
 from datetime import datetime, timedelta
+import hashlib
 import threading
 import mcrcon
 import string
@@ -45,7 +46,7 @@ group_id = config['group_id']
 mysql_host = config['mysql_host']
 mysql_user = config['mysql_user']
 mysql_pass = config['mysql_pass']
-mysql_survival_db = config['mysql_survival_db']
+mysql_server_db = config['mysql_server_db']
 mysql_bot_db = config['mysql_bot_db']
 
 #===================================#
@@ -68,7 +69,7 @@ connBot = mysql.connector.connect(
     host=mysql_host,
     user=mysql_user,
     password=mysql_pass,
-    database='sql7759759'
+    database=mysql_bot_db
 )
 connBot.autocommit = True
 cursorBot = connBot.cursor()
@@ -83,7 +84,7 @@ promo_conn = mysql.connector.connect(
     host=mysql_host,
     user=mysql_user,
     password=mysql_pass,
-    database='sql7759759'
+    database=mysql_bot_db
 )
 promo_conn.autocommit = True
 promo_cursor = promo_conn.cursor()
@@ -94,18 +95,18 @@ conn_protect = mysql.connector.connect(
     host=mysql_host,
     user=mysql_user,
     password=mysql_pass,
-    database='sql7759759'
+    database=mysql_server_db
 )
 conn_protect.autocommit = True
 cursor_protect = promo_conn.cursor()
 
-# Подключение к survival_data
+# Подключение к server_db
 
 connSurvival = mysql.connector.connect(
             host=mysql_host,
             user=mysql_user,
             password=mysql_pass,
-            database='sql7759759'
+            database=mysql_server_db
         )
 
 connSurvival.autocommit = True
@@ -150,8 +151,7 @@ cursorBot.execute('''
     CREATE TABLE IF NOT EXISTS settings (
         nickname VARCHAR(255),
         vk_id BIGINT NOT NULL,
-        mailing VARCHAR(10) DEFAULT 'YES',
-        join_notifications VARCHAR(10) DEFAULT 'NO'
+        mailing VARCHAR(10) DEFAULT 'YES'
     )
 ''')
 
@@ -252,16 +252,31 @@ def get_last_date(username):
     try:
         cursorSurvival.execute("SELECT last_date FROM users WHERE nickname = %s", (username,))
         row = cursorSurvival.fetchone()
-        #connSurvival.close()
-
-        if row:
-            return row[0]
+        
+        if row and row[0]:
+            # Конвертация UNIX-времени в строку
+            dt = datetime.fromtimestamp(row[0])
+            return dt.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            return 'Неизвестно'
     except mysql.connector.Error as e:
         print(f"Ошибка при получении последней даты для пользователя {username}: {e}")
     return 'Неизвестно'
 
 def generate_promo_code():
     return '-'.join([''.join(random.choices(string.ascii_uppercase, k=5)) for _ in range(3)])
+
+def hash_password(new_password):
+    
+    new_password_bytes = new_password.encode('utf-8')
+    
+    sha512_hash = hashlib.sha512()
+    
+    sha512_hash.update(new_password_bytes)
+    
+    hashed_password = sha512_hash.hexdigest()
+    
+    return hashed_password
     
 #===================================#
 #                                   #
@@ -385,7 +400,7 @@ def ban_player(username, ban_reason, ban_duration_hours, user_id):
         vk_id = row[0]
         # Замена подчеркиваний на пробелы при выводе
         #display_ban_reason = ban_reason.replace('_', ' ')
-        send_vk_message(vk_session, vk_id, f"🚫 | [id{vk_id}|{username}], вы были заблокированы в консоли сервера по причине: {display_ban_reason}. Разбан через: {ban_duration_hours} час(ов).")
+        send_vk_message(vk_session, vk_id, f"🚫 | [id{vk_id}|{username}], вы были заблокированы в консоли сервера по причине: {display_ban_reason}. Разбан через: {ban_duration_hours} час(ов).\n 💉 | Доки: @roltoncraft_logs")
 
     # Получаем никнейм администратора
     selected_account = get_selected_account(user_id)
@@ -624,14 +639,15 @@ def run_bot():
                         else:
                             send_vk_message(vk_session, user_id, f"🚫 | Аккаунт {selected_account} не найден.")
                     else:
-                        send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для отвязки. Используйте /акк выбрать.")
+                        send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для отвязки. Используйте /акк 2 [номер акка].")
 
                 elif message_text == 'помощь':
                     help_message = (
                         "📰 | Доступные команды:\n"
                         "❤ | /привязать [ник] [код] - Привязать аккаунт.\n"
                         "💔 | /отвязать - Отвязать аккаунт.\n"
-                        "🎗 | /акк [аргументы] - управление привязанными аккаунтами.\n » список - все привязанные аккаунты.\n » выбрать - выбор аккаунта для взаимодействия с ботом.\n » профиль - посмотреть профиль выбранного аккаунта.\n » восстановить [новый_пароль] - восстановление пароля.\n"
+                        "🎗 | /акк [аргументы] - управление привязанными аккаунтами.\n » 1 - все привязанные аккаунты.\n » 2 - выбор аккаунта для взаимодействия с ботом.\n » 3 - посмотреть профиль выбранного аккаунта.\n » 4 [новый_пароль](/акк 4 пасс) - восстановление пароля.\n"
+                        "📩 | /rcon - отправить Rcon команду на сервер.\n» 1 - покажет все доступные сервера.\n» 2 - выбор нужного сервера.\n"
                         "⚙️ | /настройки - управление настройками аккаунта.\n"
                         "🎁 | /промо активация [промо] [сервер] - активация промокодов в боте.\n"
                         "📰 | помощь - список всех команд"
@@ -656,8 +672,6 @@ def run_bot():
                                 "🖥 | Админские команды:\n"
                                 "⛓️ | /report - заблокировать доступ к консоли и ограничить его донатерские возможности.\n"
                                 "(от Administrator)\n"
-                                "📩 | /rcon - отправить Rcon команду на сервер.\n» сервера - покажет все доступные сервера.\n» выбрать - выбор нужного сервера.\n"
-                                "(от Helper)\n"
                                 "📦 |/юзер-лист [номер страницы] - список аккаунтов с доступом.\n"
                                 "(от Support)\n"
                                 "📤 | /рассылка - разослать всем привязанным аккаунтам сообщение о чем-либо.\n"
@@ -721,9 +735,9 @@ def run_bot():
                             continue
 
                         # Подкоманда /rcon выбрать [имя сервера]
-                        if command_parts[1] == "выбрать":
+                        if command_parts[1] == "1":
                             if len(command_parts) < 3:
-                                send_vk_message(vk_session, user_id, "🚫 | Неверный формат. Используйте: /rcon выбрать [имя сервера].")
+                                send_vk_message(vk_session, user_id, "🚫 | Неверный формат. Используйте: /rcon 1 [имя сервера].")
                                 continue
 
                             server_name = command_parts[2]
@@ -752,7 +766,7 @@ def run_bot():
                                 send_vk_message(vk_session, user_id, f"🖥 Вы успешно выбрали сервер {server_name} с аккаунта {selected_account}")
 
                         # Подкоманда /rcon сервера
-                        elif command_parts[1] == "сервера":
+                        elif command_parts[1] == "2":
                             selected_account = get_selected_account(user_id)
                             
                             if not selected_account:
@@ -790,7 +804,7 @@ def run_bot():
                                 if row and row[0]:
                                     selected_account = row[0]  # Получаем значение selected_account из БД
                                 else:
-                                    send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для выполнения ркон команды. Используйте /акк выбрать.")
+                                    send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для выполнения ркон команды. Используйте /акк 2 [номер акка].")
                                     continue
 
                                 cursorBot.execute("SELECT rank, banned, ban_reason, ban_time, nickname FROM vk_rcon WHERE vk_id = %s AND nickname = %s", (user_id, selected_account))
@@ -825,7 +839,7 @@ def run_bot():
 
                                             remaining_time_formatted = ', '.join(ban_duration)
                                             
-                                            send_vk_message(vk_session, user_id, f"🚫 | [id{user_id}|{selected_account}], вы были заблокированы в консоли сервера. по причине: {ban_reason}. разбан через: {remaining_time_formatted}.")
+                                            send_vk_message(vk_session, user_id, f"🚫 | [id{user_id}|{selected_account}], вы были заблокированы в консоли сервера. по причине: {ban_reason}. разбан через: {remaining_time_formatted}.\n 💉 | Доки: @roltoncraft_logs")
                                             continue
                                         else:
                                             # Если время бана истекло, разбаниваем игрока автоматически
@@ -1001,10 +1015,10 @@ def run_bot():
                     try:
                         _, args = message_text.split(' ', 1)
                     except ValueError:
-                        send_vk_message(vk_session, user_id, "🚫 не выбраны аргументы. Введите /акк [список, выбрать, профиль, восстановить [пароль] ]")
+                        send_vk_message(vk_session, user_id, "🚫 не выбраны аргументы. Введите /акк  [ 1 - список, 2 - выбрать, 3 - профиль, 4 - восстановление пароля]")
                         continue
 
-                    if args == "список":
+                    if args == "1":
                         # Получаем все привязанные аккаунты пользователя
                         cursorBot.execute("SELECT username FROM vk_links WHERE vk_id = %s", (user_id,))
                         accounts = cursorBot.fetchall()
@@ -1021,12 +1035,12 @@ def run_bot():
                         else:
                             send_vk_message(vk_session, user_id, "🚫 | У вас нет привязанных аккаунтов.")
                     
-                    elif args.startswith("выбрать"):
+                    elif args.startswith("2"):
                         try:
                             _, account_number = args.split(' ', 1)
                             account_number = int(account_number) - 1  # Преобразуем номер аккаунта в индекс
                         except ValueError:
-                            send_vk_message(vk_session, user_id, "🚫 | для выбора аккаунта используйте - /акк выбрать [номер аккаунта]")
+                            send_vk_message(vk_session, user_id, "🚫 | для выбора аккаунта используйте - /акк 2 [номер аккаунта]")
                             continue
                         
                         # Получаем список всех аккаунтов
@@ -1052,7 +1066,7 @@ def run_bot():
                         else:
                             send_vk_message(vk_session, user_id, "🚫 | Некорректный номер аккаунта.")
                     
-                    elif args == "профиль":
+                    elif args == "3":
                         selected_account = get_selected_account(user_id)
                         
                         if selected_account:
@@ -1086,7 +1100,7 @@ def run_bot():
                                                           f"🕒 | Последняя сессия: {last_session_minutes} м.\n"
                                                           f"============\n"
                                                           f"🔐 | Последний вход:\n"
-                                                          f"» Дата - {last_date}\n"
+                                                          f"» Дата - {last_date} MSK\n"
                                                           f"» IP - {ip}\n"
                                     
                                                           f"» Устройство - {device}\n"
@@ -1096,9 +1110,9 @@ def run_bot():
                             else:
                                 send_vk_message(vk_session, user_id, "🚫 | Ваш аккаунт не привязан или привязка не завершена.")
                         else:
-                            send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для просмотра профиля. Используйте /акк выбрать.")
+                            send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для просмотра профиля. Используйте /акк 2 [ номер аккаунта ].")
                     
-                    elif args.startswith("восстановить"):
+                    elif args.startswith("4"):
                         selected_account = get_selected_account(user_id)
 
                         if selected_account:
@@ -1121,7 +1135,7 @@ def run_bot():
                                     # Если last_reset_time NULL, пропускаем проверку времени
                                     send_vk_message(vk_session, user_id, f"👤 | Смена пароля для аккаунта '{username}'\n\n🔑 | Ваш новый пароль: {new_password}\n\n✏️ | Для подтверждения - напишите в чат 'ПОДТВЕРЖДАЮ' заглавными буквами")
                                 else:
-                                    last_reset_time = datetime.strptime(last_reset_row[0], "%Y-%m-%d %H:%M:%S")
+                                    last_reset_time = last_reset_row[0]
                                     current_time = datetime.now()
                                     time_diff = current_time - last_reset_time
 
@@ -1142,15 +1156,16 @@ def run_bot():
                                         if confirmation_event.obj.message['text'].strip() == 'ПОДТВЕРЖДАЮ':
                                             #auth_conn = sqlite3.connect(auth_db_path) # подключение к auth.db
                                             #auth_cursor = auth_conn_bot.cursor()
+                                            hashed_password = hash_password(new_password)
 
                                             try:
-                                                cursorSurvival.execute("UPDATE users SET password = ? WHERE nickname = ?", (new_password, username))
+                                                cursorSurvival.execute("UPDATE users SET password = %s WHERE nickname = %s", (hashed_password, username))
                                                 connSurvival.commit()
                                                 send_vk_message(vk_session, user_id, f"✅ | Вы успешно сменили пароль для аккаунта '{username}'")
 
                                                 current_time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                                 cursorBot.execute("REPLACE INTO others (vk_id, last_reset_time) VALUES (%s, %s)", (vk_id, current_time_str))
-                                                cursorBot.execute("UPDATE others SET selected_account = ? WHERE vk_id = %s", (selected_account, vk_id))
+                                                cursorBot.execute("UPDATE others SET selected_account = %s WHERE vk_id = %s", (selected_account, vk_id))
                                                 #connBot.close()
                                             except mysql.connector.Error:
                                                 send_vk_message(vk_session, user_id, "🚫 | Ошибка при обновлении пароля. Попробуйте позже.")
@@ -1168,10 +1183,10 @@ def run_bot():
                             else:
                                 send_vk_message(vk_session, user_id, "🚫 | Аккаунт не найден или не привязан.")
                         else:
-                            send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для восстановления пароля. Используйте /акк выбрать.")
+                            send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт для восстановления пароля. Используйте /акк 2 [номер акка].")
                     
                     else:
-                        send_vk_message(vk_session, user_id, "🚫 не выбраны аргументы. Введите /акк [список, выбрать, профиль, восстановить]")
+                        send_vk_message(vk_session, user_id, "🚫 не выбраны аргументы. Введите /акк [ 1 - список, 2 - выбрать, 3 - профиль, 4 - восстановление пароля]")
   
                 if message_text.startswith('/vk-info'):
                     # Извлечение никнейма из команды
@@ -1223,7 +1238,7 @@ def run_bot():
                     selected_account = get_selected_account(user_id)
 
                     if selected_account is None:
-                        send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт. Используйте /акк выбрать.")
+                        send_vk_message(vk_session, user_id, "🚫 | Вы не выбрали аккаунт. Используйте /акк 2 [номер].")
                         continue
 
                     # Обработка изменения настроек
@@ -1244,7 +1259,7 @@ def run_bot():
                             #connBot.close()
                             send_vk_message(vk_session, user_id, f"⚙️ | Опция 'рассылка' для аккаунта {selected_account} успешно изменена.")
 
-                        elif option == 'входы':
+                        elif option == 'вход-Hsng_fbfы':
                             cursorBot.execute("UPDATE settings SET join_notifications = %s WHERE nickname = %s", (new_value, selected_account))
                             #connBot.close()
                             send_vk_message(vk_session, user_id, f"⚙️ | Опция 'Входы' для аккаунта {selected_account} успешно изменена.")
@@ -1253,7 +1268,7 @@ def run_bot():
                             if value == 'вкл':
                                 send_vk_message(vk_session, user_id, f"🚫 | Опция 'CID' не может быть включена в боте.\n💡 | что бы включить защиту по CIDу зайдите на сервер под ником  {selected_account} и напишите /2fa cid-on.")
                             elif value == 'выкл':
-                                cursor_protect.execute("DELETE FROM cid WHERE player = ?", (selected_account,))
+                                cursor_protect.execute("DELETE FROM cid WHERE player = %s", (selected_account,))
                                 conn_protect.close()
                                 send_vk_message(vk_session, user_id, f"⚙️ | Опция 'CID' для аккаунта {selected_account} успешно отключена.")
                             else:
@@ -1263,7 +1278,7 @@ def run_bot():
                             if value == 'вкл':
                                 send_vk_message(vk_session, user_id, f"🚫 | Опция 'SKIN' не может быть включена в боте.\n💡 | чтобы включить защиту по SKINу зайдите на сервер под ником {selected_account} и напишите /2fa skin-on.")
                             elif value == 'выкл':
-                                cursor_protect.execute("DELETE FROM skin WHERE player = ?", (selected_account,))
+                                cursor_protect.execute("DELETE FROM skin WHERE player = %s", (selected_account,))
                                 conn_protect.commit()
                                 send_vk_message(vk_session, user_id, f"⚙️ | Опция 'SKIN' для аккаунта {selected_account} успешно отключена.")
                             else:
@@ -1274,32 +1289,32 @@ def run_bot():
 
                     # Вывод текущих настроек, если команда без аргументов
                     elif len(args) == 1:
-                        cursorBot.execute("SELECT mailing, join_notifications FROM settings WHERE nickname = %s", (selected_account,))
+                        cursorBot.execute("SELECT mailing FROM settings WHERE nickname = %s", (selected_account,))
                         settings = cursorBot.fetchone()
 
                         # Проверка состояния защиты по CID
-                        cursor_protect.execute("SELECT hash FROM cid WHERE player = ?", (selected_account,))
+                        cursor_protect.execute("SELECT hash FROM cid WHERE player = %s", (selected_account,))
                         cid_protection = cursor_protect.fetchone()
 
                         # Проверка состояния защиты по SKIN
-                        cursor_protect.execute("SELECT hash FROM skin WHERE player = ?", (selected_account,))
+                        cursor_protect.execute("SELECT hash FROM skin WHERE player = %s", (selected_account,))
                         skin_protection = cursor_protect.fetchone()
 
                         if settings is None:
                             # Если аккаунт не найден, создаем запись с дефолтными настройками
-                            cursorBot.execute("INSERT INTO settings (nickname, vk_id, mailing, join_notifications) VALUES (%s, %s, %s, %s)", (selected_account, user_id, 'YES', 'NO'))
+                            cursorBot.execute("INSERT INTO settings (nickname, vk_id, mailing) VALUES (%s, %s, %s)", (selected_account, user_id, 'YES', 'NO'))
                             connBot.commit()
                             mailing_status = "✅"
-                            join_status = "⛔"
+                            #join_status = "⛔"
                             cid_status = "⛔"
                             skin_status = "⛔"
-                            send_vk_message(vk_session, user_id, f"⚙️ | Для аккаунта {selected_account} были созданы настройки по умолчанию.\n\n📩 | Рассылка: {mailing_status}\n🔔 | Входы: {join_status}\n🖥 | CID: {cid_status}\n👤 | SKIN: {skin_status}")
+                            send_vk_message(vk_session, user_id, f"⚙️ | Для аккаунта {selected_account} были созданы настройки по умолчанию.\n\n📩 | Рассылка: {mailing_status}\n🖥 | CID: {cid_status}\n👤 | SKIN: {skin_status}")
                         else:
                             mailing_status = "✅" if settings[0] == 'YES' else "⛔"
-                            join_status = "✅" if settings[1] == 'YES' else "⛔"
+                            #join_status = "✅" if settings[1] == 'YES' else "⛔"
                             cid_status = "✅" if cid_protection else "⛔"
                             skin_status = "✅" if skin_protection else "⛔"
-                            send_vk_message(vk_session, user_id, f"⚙️ | Настройки аккаунта {selected_account}\n📩 | Рассылка: {mailing_status}\n | Входы аккаунта: {join_status}\n🖥 | защита по CID: {cid_status}\n👤 | защита по SKIN: {skin_status}")
+                            send_vk_message(vk_session, user_id, f"⚙️ | Настройки аккаунта {selected_account}\n📩 | Рассылка: {mailing_status}\n🖥 | защита по CID: {cid_status}\n👤 | защита по SKIN: {skin_status}")
 
                     else:
                         send_vk_message(vk_session, user_id, "🚫 | Неверный формат. Используйте '/настройки [опция] [вкл/выкл]' или '/настройки'.")
@@ -1337,7 +1352,7 @@ def run_bot():
                             for user in users:
                                 nickname, rank = user
                                 message += f"👤 | Ник: {nickname}\n👑 | Доступ: {rank}\n"
-                                message += "×××××××××××××××××\n"
+                                message += "------------------------------------\n"
                             message += f"Страница {page} из {total_pages}"
                             send_vk_message(vk_session, user_id, message)
                         else:

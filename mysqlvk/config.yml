@@ -26,14 +26,14 @@ logs_admin_token: "vk1.a.J_OiNBUN8RFCKguMhBSADqO0bbB-kkyqriw4jK2OikQkbcqQrHxJwLt
 
 # Параметры ркон серверов
 servers:
-  grief:
-    rcon_host: "149.144.69.76"
-    rcon_port: 19133
-    rcon_password: "DyZm8WXu"
-  cookie:
+  zaparik:
     rcon_host: "178.236.243.51"
-    rcon_port: 19132
-    rcon_password: "hk1FLVyLtk"
+    rcon_port: 19133
+    rcon_password: "ytqwl05D6c"
+  rolton:
+    rcon_host: "178.236.243.51"
+    rcon_port: 11
+    rcon_password: "R3D+7IJVhV"
 # список разрешенных серверов для рангов сервера
 serv_perms:
   Helper:
@@ -49,10 +49,12 @@ serv_perms:
     - "cookie"
   Console:
     - "linux"
-  SigmaAdmin:
-    - "cookie"
+  TechAdmin:
+    - "rolton"
+    - "zaparik"
 
 # Список всех существующих рангов
+# чем ниже тем пизже
 valid_ranks:
   valid:
   - "Нету"
@@ -67,7 +69,7 @@ valid_ranks:
   - "Manager"
   - "Deputy"
   - "SuperAdmin"
-  - "SigmaAdmin"
+  - "TechAdmin"
 # Списки разрешённых команд для каждого ранга
 permissions:
   Console:
@@ -176,7 +178,7 @@ permissions:
     - "gamemode"
     - "give"
     - "time"
-  SigmaAdmin:
+  TechAdmin:
     - "*"
   SuperAdmin:
     - "*"  # "*" Всё Команды
@@ -195,10 +197,10 @@ admins:
 #=====================================#
 
 mysql_host: 'sql7.freesqldatabase.com' #Хост
-mysql_user: 'sql7759759' #Пользователь 
-mysql_pass: '8S8UBcTY92' #Пароль
-mysql_survival_db: 'survival_data' #база данных для данных сервера
-mysql_bot_db: 'bot_data' # бд для данных бота
+mysql_user: 'sql7762171' #Пользователь 
+mysql_pass: 'pBezl7BsfF' #Пароль
+mysql_server_db: 'sql7762171' #база данных для данных сервера
+mysql_bot_db: 'sql7762171' # бд для данных бота
 
 
 #=====================================#
@@ -209,21 +211,21 @@ mysql_bot_db: 'bot_data' # бд для данных бота
 allowed_ranks:
   report:
     - "Administrator"
-    - "SigmaAdmin"
+    - "TechAdmin"
     - "SuperAdmin"
   vk_info:
     - "SuperAdmin"
-    - "SigmaAdmin"
+    - "TechAdmin"
     - "Support"
   user_list:
     - "SuperAdmin"
-    - "SigmaAdmin"
+    - "TechAdmin"
   rcon:
     - "SuperAdmin"
-    - "SigmaAdmin"
+    - "TechAdmin"
     - "Manager"
   admin_help:
-    - "SigmaAdmin"
+    - "TechAdmin"
     - "SuperAdmin"
   
  

@@ -1,0 +1,55 @@
+name: HlebBans
+main: Bans\Main
+version: 1.1
+author: HlebCraft
+website: vk.com/hleb_craft
+api: 3.0.0
+
+commands:
+ hban: 
+  description: "Дать бан игроку"
+  permission: hleb.ban
+ hkick: 
+  description: "Кикнуть игрока"
+  permission: hleb.kick
+ hmute: 
+  description: "Заткнуть игрока"
+  permission: hleb.mute
+ hunmute: 
+  description: "Отменить мут игрока"
+  permission: hleb.unmute
+ hbanlist: 
+  description: "Список забаненых"
+  permission: hleb.list
+ hpardon: 
+  description: "Разбанить"
+  permission: hleb.pardon
+ hfreeze: 
+  description: "Функции заморозки"
+  permission: hleb.freeze
+ bans-help: 
+  description: "Помощь HlebBans"
+  permission: hleb.ban
+permissions:
+ hleb.ban: 
+  description: "Разрешает забанить по нику"
+ hleb.banip: 
+  description: "Разрешает забанить по IP"
+ hleb.uimmunity: 
+  description: "Иммунитет от кика и бана"
+ hleb.immunity: 
+  description: "Иммунитет от кика и бана"
+ hleb.pardon: 
+  description: "Разбан"
+ hleb.offban: 
+  description: "Разрешает выдачу OFFLINE бана"
+ hleb.kick: 
+  description: "Разрешает кикнуть игрока"
+ hleb.mute: 
+  description: "Разрешает заткнуть игрока"
+ hleb.offmute: 
+  description: "Разрешает заткнуть игрока OFFLINE"
+ hleb.unmute:
+  description: "Разрешает убрать мут игрока"
+ hleb.freeze:
+  description: "Заморозка игрока"
